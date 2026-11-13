@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A simple computer-based examination portal."
+    />
+    <title>CBT Examination System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Homepage -->
+    <section id="home" class="page">
+      <nav class="navbar">
+        <img src="./Images/ghhgf.png" />
+        <div class="nav-actions">
+          <button class="btn btn-outline" type="button" onclick="showLogin()">
+            Sign In
+          </button>
+          <button class="btn" type="button" onclick="showSignup()">
+            Sign Up
+          </button>
+        </div>
+      </nav>
+
+      <main class="hero">
+        <span class="eyebrow">ONLINE EXAMINATION PLATFORM</span>
+        <h1>Welcome to CBT Examination</h1>
+        <p>Test your knowledge. Challenge yourself. See your results.</p>
+        <button class="btn btn-large" type="button" onclick="showLogin()">
+          Get Started
+        </button>
+      </main>
+    </section>
+
+    <!-- Login modal -->
+    <div
+      id="loginModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="loginHeading"
+    >
+      <div class="modal-content">
+        <button
+          class="close"
+          type="button"
+          aria-label="Close"
+          onclick="closeModal()"
+        >
+          &times;
+        </button>
+        <h2 id="loginHeading">Sign In</h2>
+        <p class="modal-intro">Sign in to continue to your examination.</p>
+        <form id="loginForm">
+          <label for="loginEmail">Email address</label>
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="Email Address"
+            autocomplete="email"
+            required
+          />
+          <label for="loginPassword">Password</label>
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          />
+          <button class="btn btn-full" type="submit">Sign In</button>
+        </form>
+        <p class="modal-switch">
+          Don't have an account?
+          <a
+            href="#"
+            onclick="
+              showSignup();
+              return false;
+            "
+            >Sign Up</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Signup modal -->
+    <div
+      id="signupModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="signupHeading"
+    >
+      <div class="modal-content">
+        <button
+          class="close"
+          type="button"
+          aria-label="Close"
+          onclick="closeModal()"
+        >
+          &times;
+        </button>
+        <h2 id="signupHeading">Create Account</h2>
+        <p class="modal-intro">Create your student account to get started.</p>
+        <form id="signupForm">
+          <label for="signupName">Full name</label>
+          <input
+            type="text"
+            id="signupName"
+            placeholder="Full Name"
+            autocomplete="name"
+            required
+          />
+          <label for="signupEmail">Email address</label>
+          <input
+            type="email"
+            id="signupEmail"
+            placeholder="Email Address"
+            autocomplete="email"
+            required
+          />
+          <label for="signupPassword">Password</label>
+          <input
+            type="password"
+            id="signupPassword"
+            placeholder="Create a password"
+            autocomplete="new-password"
+            minlength="6"
+            required
+          />
+          <button class="btn btn-full" type="submit">Create Account</button>
+        </form>
+        <p class="modal-switch">
+          Already have an account?
+          <a
+            href="#"
+            onclick="
+              showLogin();
+              return false;
+            "
+            >Sign In</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Student dashboard -->
+    <section id="dashboard" class="page hidden">
+      <nav class="navbar">
+        <img src="./Images/ghhgf.png" />
+        <button class="btn btn-outline" type="button" onclick="logout()">
+          Logout
+        </button>
+      </nav>
+
+      <main class="content">
+        <div class="section-heading">
+          <span class="eyebrow">STUDENT DASHBOARD</span>
+          <h1 id="welcomeMessage">Welcome, Student</h1>
+          <p>
+            Your examination contains four subjects and 40 questions in total.
+          </p>
+        </div>
+
+        <div id="subjectList" class="subjects"></div>
+
+        <div class="start-panel">
+          <div>
+            <h2>Ready to begin?</h2>
+            <p>
+              Complete each subject in order. Your overall result will appear
+              after the final subject.
+            </p>
+          </div>
+          <button
+            id="startExamBtn"
+            class="btn btn-large"
+            type="button"
+            onclick="startFullExam()"
+          >
+            Start Full Examination
+          </button>
+        </div>
+      </main>
+    </section>
+
+    <!-- Examination page -->
+    <section id="exam" class="page hidden">
+      <nav class="navbar">
+        <div>
+          <img src="./Images/ghhgf.png" />
+          <p id="examSubjectLabel" class="nav-subtitle">Subject examination</p>
+        </div>
+        <button class="btn btn-outline" type="button" onclick="logout()">
+          Logout
+        </button>
+      </nav>
+
+      <main class="content exam-layout">
+        <div class="exam-topline">
+          <div>
+            <span class="eyebrow" id="subjectProgress">SUBJECT 1 OF 4</span>
+            <h1 id="examTitle">Mathematics</h1>
+          </div>
+          <div class="question-count" id="questionNumber">Question 1 of 10</div>
+        </div>
+
+        <div class="progress-track" aria-label="Examination progress">
+          <div id="progressBar" class="progress-fill"></div>
+        </div>
+
+        <article class="exam-box">
+          <p class="question-label">QUESTION</p>
+          <h2 id="questionText">Question goes here</h2>
+          <div id="options" class="options-list"></div>
+
+          <div class="exam-buttons">
+            <button
+              id="previousBtn"
+              class="btn btn-outline"
+              type="button"
+              onclick="previousQuestion()"
+            >
+              Previous
+            </button>
+            <button
+              id="nextBtn"
+              class="btn"
+              type="button"
+              onclick="nextQuestion()"
+            >
+              Next
+            </button>
+          </div>
+          <p class="exam-hint">
+            Select an answer before moving to the next question.
+          </p>
+        </article>
+      </main>
+    </section>
+
+    <!-- Final results dashboard -->
+    <section id="result" class="page hidden">
+      <nav class="navbar">
+        <img src="./Images/ghhgf.png" />
+        <button class="btn btn-outline" type="button" onclick="logout()">
+          Logout
+        </button>
+      </nav>
+
+      <main class="content results-content">
+        <div class="results-heading">
+          <span class="eyebrow">EXAMINATION SUMMARY</span>
+          <h1>Examination Completed!</h1>
+          <p id="studentResult">Student result</p>
+        </div>
+
+        <section class="overall-result">
+          <p class="result-label">OVERALL SCORE</p>
+          <h2 id="score">0 / 40</h2>
+          <p class="overall-percentage" id="percentage">0%</p>
+          <p class="result-caption">
+            Your combined performance across all four subjects
+          </p>
+        </section>
+
+        <section class="performance-section">
+          <h2>Subject Performance</h2>
+          <div id="subjectResults" class="subject-results"></div>
+        </section>
+
+        <div class="result-footer">
+          <p>Your results have been saved in this browser.</p>
+          <button class="btn" type="button" onclick="logout()">Logout</button>
+        </div>
+      </main>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
